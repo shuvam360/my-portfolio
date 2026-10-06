@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Page Metadata / SEO -->
+  <title>Shuvam Dikshit | B.Tech CSE (AI/ML) Student</title>
+  <meta name="description"
+    content="Portfolio of Shuvam Dikshit — B.Tech CSE (AI/ML) student at Brainware University, passionate about AI, Machine Learning, IoT, and building real-world projects." />
+
+  <!-- GSAP and ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress"></div>
+
+  <!-- HEADER / NAVIGATION -->
+  <header>
+    <nav class="navbar">
+      <a href="#hero-section" class="logo" id="nav-logo">Shuvam Dikshit</a>
+
+      <ul class="nav-links">
+        <li><a href="#hero-section" class="active">Home</a></li>
+        <li><a href="#about-section">About</a></li>
+        <li><a href="#projects-section">Work</a></li>
+        <li><a href="#contact-section">Contact</a></li>
+      </ul>
+
+      <!-- Social Icons in Nav -->
+      <div class="nav-socials" id="nav-socials">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Dark / Light Mode Toggle Button -->
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </button>
+
+      <a href="/resume.pdf" class="nav-cta" id="resume-cta" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="resume-icon">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" x2="12" y1="15" y2="3"/>
+        </svg>
+        Resume
+      </a>
+
+      <button class="menu-btn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN SECTIONS -->
+  <main>
+    <!-- HERO -->
+    <section id="hero-section">
+      <div class="container-section" id="hero">
+        <div class="hero-content">
+          <span class="hero-subtitle" id="hero-greeting">Hello, I'm Shuvam,</span>
+          <h1 id="hero-title">AI & Machine<br>Learning <span class="gradient-text">Student</span></h1>
+          <p class="hero-desc" id="hero-tagline">
+            based in West Bengal, India.
+          </p>
+          <div class="hero-ctas">
+            <a href="/resume.pdf" class="btn-primary" id="resume-cta" target="_blank" rel="noopener noreferrer">Resume</a>
+            <a href="#projects-section" class="btn-secondary">View Projects</a>
+          </div>
+        </div>
+
+        <!-- Hero Photo Area -->
+        <div class="hero-photo-area">
+          <div class="hero-photo-wrapper">
+            <div class="hero-photo-ring"></div>
+            <div class="hero-photo">
+              <img src="/profile.png" alt="Shuvam Dikshit — AI/ML Student" id="hero-profile-img" />
+            </div>
+          </div>
+
+          <!-- Decorative elements -->
+          <span class="deco-cross deco-cross--1">✦</span>
+          <span class="deco-cross deco-cross--2">✦</span>
+          <span class="deco-cross deco-cross--3">✦</span>
+          <span class="deco-lines">////</span>
+        </div>
+
+        <div class="scroll-indicator">
+          <span>Scroll Down</span>
+          <div class="mouse-icon">
+            <div class="wheel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>About <span class="neon-text">Me</span></h2>
+          <p>A passionate student building real-world AI, ML & IoT solutions.</p>
+          <div class="section-divider"></div>
+        </div>
+
+        <div id="about">
+          <div class="about-text">
+            <h3>My Journey</h3>
+            <p id="about-bio-1">
+              Loading bio information...
+            </p>
+            <p id="about-bio-2">
+              I thrive at the intersection of software engineering, data science, and embedded systems.
+              Whether training machine learning models, building IoT prototypes, or exploring AI automation,
+              my goal is always to create solutions that deliver measurable real-world impact.
+            </p>
+
+            <div class="about-stats" id="stats-container">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Profile Info Card -->
+          <div class="profile-card glass-card" id="profile-container">
+            <div class="profile-image-container">
+              <div class="profile-image-inner">
+                <!-- Neural Network / Brain icon svg -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="4" r="2" />
+                  <circle cx="6" cy="12" r="2" />
+                  <circle cx="18" cy="12" r="2" />
+                  <circle cx="8" cy="20" r="2" />
+                  <circle cx="16" cy="20" r="2" />
+                  <line x1="12" y1="6" x2="6" y2="10" />
+                  <line x1="12" y1="6" x2="18" y2="10" />
+                  <line x1="6" y1="14" x2="8" y2="18" />
+                  <line x1="18" y1="14" x2="16" y2="18" />
+                  <line x1="6" y1="14" x2="16" y2="18" />
+                  <line x1="18" y1="14" x2="8" y2="18" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="profile-name" id="profile-name">Name</h3>
+            <p class="profile-title" id="profile-title">Role Title</p>
+
+            <div class="profile-socials" id="socials-container">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>Education & <span class="purple-glow-text">Certifications</span></h2>
+          <p>My academic journey and professional certifications in AI/ML.</p>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="timeline" id="education-container">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div class="certifications-grid" id="certifications-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>Featured <span class="gradient-text">Projects</span></h2>
+          <p>Real-world projects showcasing AI, Machine Learning, and IoT solutions.</p>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="projects-grid" id="projects-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>Technical <span class="neon-text">Arsenal</span></h2>
+          <p>The languages, frameworks, and tools I use to build intelligent systems.</p>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="skills-container" id="skills-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>Key <span class="gradient-text">Achievements</span></h2>
+          <p>Recognition and milestones from competitions, exhibitions, and academics.</p>
+          <div class="section-divider"></div>
+        </div>
+
+        <div class="achievements-grid" id="achievements-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact-section">
+      <div class="container-section">
+        <div class="section-header">
+          <h2>Let's Connect</h2>
+          <p>Have an interesting project or want to collaborate? I'd love to hear from you.</p>
+        </div>
+
+        <div class="contact-container">
+          <div class="contact-info">
+            <h3>Start a Conversation</h3>
+            <p>Feel free to reach out via email, social links, or use the contact form. I am currently open to exciting
+              internship opportunities, project collaborations, and learning experiences in AI/ML.</p>
+
+            <div class="contact-details">
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                </div>
+                <div class="contact-method-detail">
+                  <h4>Direct Email</h4>
+                  <p id="contact-email">email@example.com</p>
+                </div>
+              </div>
+
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div class="contact-method-detail">
+                  <h4>Current Location</h4>
+                  <p>West Bengal, India</p>
+                </div>
+              </div>
+
+              <div class="contact-method">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                </div>
+                <div class="contact-method-detail">
+                  <h4>Phone</h4>
+                  <p id="contact-phone">+91-8653773410</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form Card -->
+          <div class="contact-form-card">
+            <form id="contact-form" novalidate>
+              <div class="form-group">
+                <label for="form-name" class="form-label">Your Name</label>
+                <input type="text" id="form-name" class="form-input" placeholder="e.g. John Doe" required />
+              </div>
+
+              <div class="form-group">
+                <label for="form-email" class="form-label">Your Email</label>
+                <input type="email" id="form-email" class="form-input" placeholder="e.g. john@example.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="form-message" class="form-label">Message</label>
+                <textarea id="form-message" class="form-textarea" placeholder="Tell me about your project or inquiry..."
+                  required></textarea>
+              </div>
+
+              <button type="submit" class="form-submit-btn" id="submit-btn">Send Message</button>
+              <div class="form-status" id="form-status-msg">Message sent successfully!</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <a href="#hero-section" class="footer-logo">Shuvam Dikshit</a>
+      <p class="footer-text" id="footer-text">
+        &copy; 2026 Shuvam Dikshit. All Rights Reserved. Built with 🧠 AI & ❤️ Code.
+      </p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
