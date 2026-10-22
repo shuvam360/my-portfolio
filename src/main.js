@@ -74,16 +74,44 @@ function initApp() {
 
       const nameInput = document.getElementById('form-name');
       const emailInput = document.getElementById('form-email');
+      const phoneInput = document.getElementById('form-phone');
       const messageInput = document.getElementById('form-message');
 
-      // Simple Validation
-      if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
-        showStatus('Please fill in all fields.', 'error');
+      // Validation: Name is required
+      if (!nameInput || !nameInput.value.trim()) {
+        showStatus('Please enter your name.', 'error');
+        if (nameInput) nameInput.focus();
+        return;
+      }
+
+      // Validation: Email is required
+      if (!emailInput || !emailInput.value.trim()) {
+        showStatus('Please enter your email address.', 'error');
+        if (emailInput) emailInput.focus();
         return;
       }
 
       if (!isValidEmail(emailInput.value.trim())) {
         showStatus('Please enter a valid email address.', 'error');
+        if (emailInput) emailInput.focus();
+        return;
+      }
+
+      // Phone Number: Optional validation (if user provided a phone, check reasonable format)
+      if (phoneInput && phoneInput.value.trim()) {
+        const phoneVal = phoneInput.value.trim();
+        const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/;
+        if (!phoneRegex.test(phoneVal)) {
+          showStatus('Please enter a valid phone number or leave it blank.', 'error');
+          phoneInput.focus();
+          return;
+        }
+      }
+
+      // Validation: Message is required
+      if (!messageInput || !messageInput.value.trim()) {
+        showStatus('Please enter your message.', 'error');
+        if (messageInput) messageInput.focus();
         return;
       }
 
