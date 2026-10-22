@@ -26,8 +26,10 @@ This guide connects your portfolio contact form directly to a Google Sheet under
 
 ```javascript
 /**
- * Shuvam Portfolio Query Handler
- * Automatically saves inquiries into Google Sheets and alerts query.shuvam@gmail.com
+ * Shuvam Portfolio Query Handler & Auto-Responder
+ * 1. Saves inquiries into Google Sheets (Timestamp, Name, Email, Phone, Message)
+ * 2. Alerts query.shuvam@gmail.com with inquiry details
+ * 3. Sends an automated Thank You reply email to the visitor
  */
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -56,16 +58,16 @@ function doPost(e) {
       }
     }
 
-    var name = data.name || "Anonymous";
-    var email = data.email || "Not Provided";
+    var name = data.name || "Friend";
+    var email = data.email ? data.email.trim() : "";
     var phone = data.phone || "N/A";
     var message = data.message || "";
     var timestamp = new Date();
 
-    // Append the row into the sheet
+    // 1. Append inquiry row into the Google Sheet
     sheet.appendRow([timestamp, name, email, phone, message]);
 
-    // Send instant email notification to query.shuvam@gmail.com
+    // 2. Alert Shuvam at query.shuvam@gmail.com
     try {
       MailApp.sendEmail({
         to: "query.shuvam@gmail.com",
@@ -77,8 +79,58 @@ function doPost(e) {
               "💬 Message:\n" + message + "\n\n" +
               "⏰ Received At: " + timestamp.toLocaleString()
       });
-    } catch (mailError) {
-      Logger.log("Email notification skipped: " + mailError);
+    } catch (adminMailErr) {
+      Logger.log("Admin alert email skipped: " + adminMailErr);
+    }
+
+    // 3. Send automated "Thank You" confirmation email to the visitor
+    if (email && email.indexOf("@") !== -1) {
+      try {
+        var visitorSubject = "Thank you for reaching out, " + name + "!";
+        
+        var plainBody = "Hi " + name + ",\n\n" +
+          "Thank you for your response message! I have received your inquiry from my portfolio website.\n\n" +
+          "Summary of your message:\n" +
+          "• Message: " + message + "\n" +
+          (phone && phone !== "N/A" ? "• Phone: " + phone + "\n" : "") +
+          "\nI will review your message and get back to you as soon as possible.\n\n" +
+          "Best regards,\n" +
+          "Shuvam Dikshit\n" +
+          "B.Tech CSE (AI/ML) Student\n" +
+          "Direct Email: shuvamdikshit5@gmail.com\n" +
+          "Portfolio: https://shuvam360.github.io/my-portfolio/";
+
+        var htmlBody = `
+          <div style="font-family: Arial, sans-serif; max-width: 580px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; color: #2d3748;">
+            <h2 style="color: #1a1a2e; margin-top: 0; font-size: 20px;">Thank you for reaching out, ${name}! 👋</h2>
+            <p style="font-size: 15px; line-height: 1.6; color: #4a5568;">
+              <strong>Thank you for your response message!</strong> I have successfully received your inquiry through my portfolio website.
+            </p>
+            <div style="background-color: #f7fafc; border-left: 4px solid #e5c97b; padding: 14px 18px; margin: 20px 0; border-radius: 4px;">
+              <p style="margin: 0 0 6px 0; font-size: 12px; color: #718096; text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">Your Message:</p>
+              <p style="margin: 0; color: #2d3748; font-style: italic; font-size: 14px; line-height: 1.5;">"${message}"</p>
+            </div>
+            <p style="font-size: 14px; line-height: 1.6; color: #4a5568;">
+              I will review your message and get back to you as soon as possible.
+            </p>
+            <hr style="border: none; border-top: 1px solid #edf2f7; margin: 24px 0;" />
+            <p style="margin: 0; font-weight: bold; color: #1a1a2e; font-size: 15px;">Shuvam Dikshit</p>
+            <p style="margin: 3px 0 0 0; color: #718096; font-size: 13px;">B.Tech CSE (AI/ML) | Aspiring Machine Learning Engineer</p>
+            <p style="margin: 6px 0 0 0; font-size: 13px;">
+              <a href="mailto:shuvamdikshit5@gmail.com" style="color: #6b6837; text-decoration: none; font-weight: 500;">shuvamdikshit5@gmail.com</a>
+            </p>
+          </div>
+        `;
+
+        MailApp.sendEmail({
+          to: email,
+          subject: visitorSubject,
+          body: plainBody,
+          htmlBody: htmlBody
+        });
+      } catch (visitorMailErr) {
+        Logger.log("Visitor thank you email error: " + visitorMailErr);
+      }
     }
 
     return ContentService
@@ -96,7 +148,7 @@ function doPost(e) {
 
 function doGet(e) {
   return ContentService
-    .createTextOutput("Google Sheet Webhook is active and listening for queries!")
+    .createTextOutput("Google Sheet Webhook & Auto-Responder is active and listening for queries!")
     .setMimeType(ContentService.MimeType.TEXT);
 }
 ```
