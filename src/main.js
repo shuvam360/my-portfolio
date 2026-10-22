@@ -64,8 +64,7 @@ function initApp() {
   }
 
   // 5. CONTACT FORM SUBMISSION & GOOGLE SHEETS SYNC
-  // Paste your Google Apps Script Web App URL from GOOGLE_SHEET_SETUP.md here:
-  const GOOGLE_SHEET_SCRIPT_URL = '';
+  const GOOGLE_SHEET_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTTSu55J4202LfvXSxiY3Mm_PCeG7Y_Dc5F5zYA44b4J4b-7jXbgAeYO3iHov6kI1vlQ/exec';
 
   const contactForm = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status-msg');
