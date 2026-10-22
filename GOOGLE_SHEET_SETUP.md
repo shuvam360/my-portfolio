@@ -93,6 +93,12 @@ function doPost(e) {
     lock.releaseLock();
   }
 }
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput("Google Sheet Webhook is active and listening for queries!")
+    .setMimeType(ContentService.MimeType.TEXT);
+}
 ```
 
 ---

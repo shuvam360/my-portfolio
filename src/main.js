@@ -122,7 +122,7 @@ function initApp() {
       submitBtn.textContent = 'Sending...';
 
       // Prepare query data for Google Sheet
-      const payload = new FormData();
+      const payload = new URLSearchParams();
       payload.append('name', nameInput.value.trim());
       payload.append('email', emailInput.value.trim());
       payload.append('phone', phoneInput && phoneInput.value.trim() ? phoneInput.value.trim() : 'N/A');
