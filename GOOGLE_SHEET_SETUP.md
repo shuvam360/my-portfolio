@@ -26,10 +26,11 @@ This guide connects your portfolio contact form directly to a Google Sheet under
 
 ```javascript
 /**
- * Shuvam Portfolio Query Handler & Auto-Responder
- * 1. Saves inquiries into Google Sheets (Timestamp, Name, Email, Phone, Message)
- * 2. Alerts query.shuvam@gmail.com with inquiry details
- * 3. Sends an automated Thank You reply email to the visitor
+ * Shuvam Portfolio Query Handler & Auto-Responder with Status Verification
+ * 1. Saves inquiries into Google Sheets (Date & Time, Name, Email, Phone, Message, Thank You Status)
+ * 2. Checks if the visitor's email is valid and tracks delivery
+ * 3. Alerts query.shuvam@gmail.com with all details
+ * 4. Sends a Thank You email to the visitor and marks Column F as "Sent ✅" or "Failed ❌"
  */
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -40,11 +41,17 @@ function doPost(e) {
     
     // Auto-create styled headers if brand new sheet
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Date & Time", "Name", "Email", "Phone Number", "Message"]);
-      var headerRange = sheet.getRange(1, 1, 1, 5);
+      sheet.appendRow(["Date & Time", "Name", "Email", "Phone Number", "Message", "Thank You Status"]);
+      var headerRange = sheet.getRange(1, 1, 1, 6);
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#e5c97b");
       headerRange.setFontColor("#1a1a2e");
+    } else {
+      // Auto-label Column F if currently blank
+      if (sheet.getRange(1, 6).getValue() === "") {
+        sheet.getRange(1, 6).setValue("Thank You Status");
+        sheet.getRange(1, 6).setFontWeight("bold").setBackground("#e5c97b").setFontColor("#1a1a2e");
+      }
     }
 
     var data = {};
@@ -64,10 +71,7 @@ function doPost(e) {
     var message = data.message || "";
     var timestamp = new Date();
 
-    // 1. Append inquiry row into the Google Sheet
-    sheet.appendRow([timestamp, name, email, phone, message]);
-
-    // 2. Alert Shuvam at query.shuvam@gmail.com
+    // 1. Alert Shuvam at query.shuvam@gmail.com
     try {
       MailApp.sendEmail({
         to: "query.shuvam@gmail.com",
@@ -80,11 +84,15 @@ function doPost(e) {
               "⏰ Received At: " + timestamp.toLocaleString()
       });
     } catch (adminMailErr) {
-      Logger.log("Admin alert email skipped: " + adminMailErr);
+      Logger.log("Admin alert email error: " + adminMailErr);
     }
 
-    // 3. Send automated "Thank You" confirmation email to the visitor
-    if (email && email.indexOf("@") !== -1) {
+    // 2. Validate visitor email & send automated Thank You response
+    var thankYouStatus = "Not Sent";
+
+    if (!isValidEmailAddress(email)) {
+      thankYouStatus = "Failed (Invalid Email) ❌";
+    } else {
       try {
         var visitorSubject = "Thank you for reaching out, " + name + "!";
         
@@ -128,13 +136,19 @@ function doPost(e) {
           body: plainBody,
           htmlBody: htmlBody
         });
+
+        thankYouStatus = "Sent ✅";
       } catch (visitorMailErr) {
+        thankYouStatus = "Failed (Delivery Error) ❌";
         Logger.log("Visitor thank you email error: " + visitorMailErr);
       }
     }
 
+    // 3. Append inquiry row into Google Sheet with the Thank You Status column
+    sheet.appendRow([timestamp, name, email, phone, message, thankYouStatus]);
+
     return ContentService
-      .createTextOutput(JSON.stringify({ result: "success" }))
+      .createTextOutput(JSON.stringify({ result: "success", thankYouStatus: thankYouStatus }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
@@ -144,6 +158,13 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Email validator: checks format and valid TLD (at least 2 letters, e.g. .com, .in, not .g)
+function isValidEmailAddress(email) {
+  if (!email || typeof email !== 'string') return false;
+  var regex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+  return regex.test(email.trim());
 }
 
 function doGet(e) {
