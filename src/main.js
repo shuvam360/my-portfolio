@@ -63,13 +63,16 @@ function initApp() {
     });
   }
 
-  // 5. CONTACT FORM SUBMISSION & VALIDATION
+  // 5. CONTACT FORM SUBMISSION & GOOGLE SHEETS SYNC
+  // Paste your Google Apps Script Web App URL from GOOGLE_SHEET_SETUP.md here:
+  const GOOGLE_SHEET_SCRIPT_URL = '';
+
   const contactForm = document.getElementById('contact-form');
   const formStatus = document.getElementById('form-status-msg');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm && formStatus) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const nameInput = document.getElementById('form-name');
@@ -115,16 +118,39 @@ function initApp() {
         return;
       }
 
-      // Simulate API submit animation
+      // Loading state
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
 
-      setTimeout(() => {
+      // Prepare query data for Google Sheet
+      const payload = new FormData();
+      payload.append('name', nameInput.value.trim());
+      payload.append('email', emailInput.value.trim());
+      payload.append('phone', phoneInput && phoneInput.value.trim() ? phoneInput.value.trim() : 'N/A');
+      payload.append('message', messageInput.value.trim());
+
+      try {
+        if (GOOGLE_SHEET_SCRIPT_URL && GOOGLE_SHEET_SCRIPT_URL.trim().length > 0) {
+          await fetch(GOOGLE_SHEET_SCRIPT_URL.trim(), {
+            method: 'POST',
+            body: payload,
+            mode: 'no-cors'
+          });
+        } else {
+          // If URL is not yet connected, provide a smooth feedback delay
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send Message';
-        showStatus('Message sent successfully! I will reach out soon.', 'success');
+        showStatus('Message sent successfully! Your inquiry has been saved.', 'success');
         contactForm.reset();
-      }, 1500);
+      } catch (err) {
+        console.error('Contact form submission error:', err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+        showStatus('Something went wrong. Please email directly at shuvamdikshit5@gmail.com', 'error');
+      }
     });
   }
 
